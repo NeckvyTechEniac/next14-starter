@@ -1,21 +1,31 @@
 import styles from "./blog.module.css";
 import PostCard from "../../components/postCard/postCard";
 
-const BlogPage = () => {
+const getData = async () => {
+  // here the data will be fetched every 3600 secondss (1 hour)
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+    next: { revalidate: 3600 },
+  });
+  // for not storing the data in cache. Nextjs caches the data by default. SO if we have some data that is constantly changing, it is better to not get data form cache and load it everytime
+  // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+  //   cache: "no-store",
+  // });
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+
+  return res.json();
+};
+
+const BlogPage = async () => {
+  const posts = await getData();
   return (
     <div className={styles.container}>
-      <div className={styles.post}>
-        <PostCard />
-      </div>
-      <div className={styles.post}>
-        <PostCard />
-      </div>
-      <div className={styles.post}>
-        <PostCard />
-      </div>
-      <div className={styles.post}>
-        <PostCard />
-      </div>
+      {posts.map((post) => (
+        <div className={styles.post} key={post.id}>
+          <PostCard post={post} />
+        </div>
+      ))}
     </div>
   );
 };
