@@ -1,24 +1,31 @@
 import styles from "./blog.module.css";
 import PostCard from "../../components/postCard/postCard";
+import { getPosts } from "../../lib/data";
 
-const getData = async () => {
-  // here the data will be fetched every 3600 secondss (1 hour)
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-    next: { revalidate: 3600 },
-  });
-  // for not storing the data in cache. Nextjs caches the data by default. SO if we have some data that is constantly changing, it is better to not get data form cache and load it everytime
-  // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-  //   cache: "no-store",
-  // });
-  if (!res.ok) {
-    throw new Error("Something went wrong");
-  }
+// fetch data with external api
+// const getData = async () => {
+//   // here the data will be fetched every 3600 secondss (1 hour)
+//   const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+//     next: { revalidate: 3600 },
+//   });
+//   // for not storing the data in cache. Nextjs caches the data by default. SO if we have some data that is constantly changing, it is better to not get data form cache and load it everytime
+//   // const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+//   //   cache: "no-store",
+//   // });
+//   if (!res.ok) {
+//     throw new Error("Something went wrong");
+//   }
 
-  return res.json();
-};
+//   return res.json();
+// };
 
 const BlogPage = async () => {
-  const posts = await getData();
+  // fetch data with external api
+  // const posts = await getData();
+
+  // fetch daata without an external api
+  const posts = await getPosts();
+
   return (
     <div className={styles.container}>
       {posts.map((post) => (
