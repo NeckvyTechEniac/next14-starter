@@ -1,6 +1,6 @@
 import styles from "./blog.module.css";
 import PostCard from "../../components/postCard/postCard";
-import { getPosts } from "../../lib/data";
+// import { getPosts } from "../../lib/data";
 
 // fetch data with external api
 // const getData = async () => {
@@ -19,12 +19,21 @@ import { getPosts } from "../../lib/data";
 //   return res.json();
 // };
 
+//fetch data using API routes
+const getData = async () => {
+  const res = await fetch(`${process.env.NEXTLOCALURL}/api/blog`);
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+  return res.json();
+};
+
 const BlogPage = async () => {
   // fetch data with external api
-  // const posts = await getData();
+  const posts = await getData();
 
   // fetch daata without an external api
-  const posts = await getPosts();
+  // const posts = await getPosts();
 
   return (
     <div className={styles.container}>

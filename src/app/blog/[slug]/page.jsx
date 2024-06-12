@@ -15,6 +15,16 @@ import { getPost } from "../../../lib/data";
 //   return res.json();
 // };
 
+// fetch data with api route
+
+const getData = async (slug) => {
+  const res = await fetch(`${process.env.NEXTLOCALURL}/api/blog/${slug}`);
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+  return res.json();
+};
+
 export const generateMetadata = async ({ params }) => {
   const { slug } = params;
   const post = await getPost(slug);
@@ -29,9 +39,9 @@ const SinglePostPage = async ({ params }) => {
   const { slug } = params;
 
   // fetch data with external API
-  // const post = await getData(slug);
+  const post = await getData(slug);
 
-  const post = await getPost(slug);
+  // const post = await getPost(slug);
 
   return (
     <div className={styles.container}>
